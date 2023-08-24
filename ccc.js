@@ -1,11 +1,7 @@
-export function validatePR({
-  title,
-  body,
-  prTitleRegexPattern,
-  prBodyRegexPattern,
-}) {
+export function validatePR({ title, body, prTitleRegexPattern, prBodyRegexPattern }) {
   const prTitleRegExp = new RegExp(prTitleRegexPattern);
   const prTitleMatchResult = prTitleRegExp.test(title);
+
   if (!prTitleMatchResult) {
     return {
       status: "failure",
@@ -18,7 +14,7 @@ export function validatePR({
   }
 
   const prBodyRegExp = new RegExp(prBodyRegexPattern);
-  if (!prBodyRegExp.test(body)) {
+  if (body && !prBodyRegExp.test(body)) {
     return {
       status: "failure",
       message: `Pull request body 
@@ -28,6 +24,7 @@ export function validatePR({
       does not match ${prBodyRegexPattern}`,
     };
   }
+
   return {
     status: "success",
     message: `
